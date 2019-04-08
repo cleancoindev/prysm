@@ -105,11 +105,10 @@ func (rs *RegularSync) receiveBlock(msg p2p.Message) error {
 	// a fork choice rule.
 	beaconState, err = rs.chainService.ReceiveBlock(ctx, block)
 	if err != nil {
-		log.Errorf("Could not process beacon block: %v", err)
+		return fmt.Errorf("Could not process beacon block: %v", err)
 	}
 	if err := rs.chainService.ApplyForkChoiceRule(ctx, block, beaconState); err != nil {
-		log.Errorf("could not apply fork choice rule: %v", err)
-		return err
+		return fmt.Errorf("could not apply fork choice rule: %v", err)
 	}
 
 	sentBlocks.Inc()
