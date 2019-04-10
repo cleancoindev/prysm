@@ -80,8 +80,8 @@ func TestBitSet(t *testing.T) {
 		{a: 100, b: []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8}},
 	}
 	for _, tt := range tests {
-		if !bytes.Equal(SetBitfield(tt.a), tt.b) {
-			t.Errorf("SetBitfield(%v) = %d, want = %v", tt.a, SetBitfield(tt.a), tt.b)
+		if !bytes.Equal(SetBitfield(tt.a, 2), tt.b) {
+			t.Errorf("SetBitfield(%v) = %d, want = %v", tt.a, SetBitfield(tt.a, 2), tt.b)
 		}
 	}
 }
@@ -98,7 +98,7 @@ func TestRoundtripBitSetAndCheck(t *testing.T) {
 		{a: 100, b: []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8}},
 	}
 	for _, tt := range tests {
-		bfield := SetBitfield(tt.a)
+		bfield := SetBitfield(tt.a, 101)
 		indexExists, err := CheckBit(bfield, tt.a)
 		if err != nil {
 			t.Errorf("checking bit for index %d leads to : %v", tt.a, err)
