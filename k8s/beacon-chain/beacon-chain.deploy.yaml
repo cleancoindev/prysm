@@ -41,7 +41,7 @@ spec:
                 topologyKey: failure-domain.beta.kubernetes.io/zone
       containers:
         - name: beacon-chain
-          image: gcr.io/prysmaticlabs/prysm/beacon-chain@sha256:eec86d67d2ed5829c732fb675823a8c0c9da641a660ecd3bd16bed799d0367ca
+          image: gcr.io/prysmaticlabs/prysm/beacon-chain@sha256:5e13794ad8eee22e1cb5debe5b3192f6bd60d4f5aa07dee7c00b49ca212bd19a
           args: 
             - --web3provider=wss://goerli.infura.io/ws/v3/be3fb7ed377c418087602876a40affa1
             - --verbosity=debug
