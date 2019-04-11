@@ -87,6 +87,25 @@ func NewDB(dirPath string) (*BeaconDB, error) {
 	return db, err
 }
 
+// NewReadOnlyDB opens a new database with the readonly option set to true.
+// This method is useful for testing snapshot data without mutating the
+// results.
+func NewReadOnlyDB(dirPath string) (*BeaconDB, error) {
+	datafile := path.Join(dirPath, "beaconchain.db")
+	boltDB, err := bolt.Open(datafile, 0600, &bolt.Options{
+		Timeout:  1 * time.Second,
+		ReadOnly: true,
+	})
+	if err != nil {
+		if err == bolt.ErrTimeout {
+			return nil, errors.New("cannot obtain database lock, database may be in use by another process")
+		}
+		return nil, err
+	}
+
+	return &BeaconDB{db: boltDB, DatabasePath: dirPath}, nil
+}
+
 // ClearDB removes the previously stored directory at the data directory.
 func ClearDB(dirPath string) error {
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
